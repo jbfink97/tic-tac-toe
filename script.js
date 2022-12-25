@@ -6,6 +6,7 @@ window.addEventListener('load', () => {
     const playerOdiv = document.querySelector('.O');
     const resetButton = document.getElementById('reset');
     let activePlayer = 'X';
+    let winner;
     playerXdiv.classList.add('active');
     const winning_combos = [
         [0, 1, 2],
@@ -19,20 +20,28 @@ window.addEventListener('load', () => {
     ]
 
 
-    // const player = (shape) => {
-    //     const takeTurn = () => {
-    //         if (shape == 'X') {
-    //             cell.textContent = 'X';
-    //             playerXdiv.classList.remove('active');
-    //             playerOdiv.classList.add('active');
-    //         } else {
-    //             cell.textContent = 'O';
-    //             playerOdiv.classList.remove('active');
-    //             playerXdiv.classList.add('active');
-    //         }
-    //     }
-    //     return {takeTurn};
-    // }
+    const player = (shape) => {
+        let totalBoxes =[];
+        const name = () => shape;
+        const takeTurn = (individualCell) => {
+            if (shape == 'X') {
+                individualCell.textContent = 'X';
+                playerXdiv.classList.remove('active');
+                playerOdiv.classList.add('active');
+                activePlayer = 'O';
+            } else {
+                individualCell.textContent = 'O';
+                playerOdiv.classList.remove('active');
+                playerXdiv.classList.add('active');
+                activePlayer = 'X';
+            }
+            totalBoxes.push(individualCell.dataset.index);
+        }
+        return { takeTurn, name };
+    }
+
+    const playerX = player('X');
+    const playerO = player('O');
 
     resetButton.addEventListener('click', () => {
         gameCells.forEach(cell => {
@@ -46,20 +55,12 @@ window.addEventListener('load', () => {
 
     gameCells.forEach(cell => {
         cell.addEventListener('click', () => {
-            if (cell.classList.contains('played')) {
-                
+            let individualCell = cell;
+            if (individualCell.textContent.length > 0) {
             } else if (activePlayer == 'X') {
-                cell.textContent = 'X';
-                cell.classList.add('played');
-                playerXdiv.classList.remove('active');
-                playerOdiv.classList.add('active');
-                activePlayer = 'O';
+                playerX.takeTurn(individualCell);
             } else {
-                cell.textContent = 'O';
-                cell.classList.add('played');
-                playerOdiv.classList.remove('active');
-                playerXdiv.classList.add('active');
-                activePlayer = 'X';
+                playerO.takeTurn(individualCell);
             }
         })
     })
