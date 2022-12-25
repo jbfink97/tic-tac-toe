@@ -1,10 +1,12 @@
 window.addEventListener('load', () => {
 
-    const playerX = document.querySelector('.X');
-    const playerO = document.querySelector('.O');
+
+    const gameCells = document.querySelectorAll('.gameSquare');
+    const playerXdiv = document.querySelector('.X');
+    const playerOdiv = document.querySelector('.O');
     const resetButton = document.getElementById('reset');
     let activePlayer = 'X';
-    playerX.classList.add('active');
+    playerXdiv.classList.add('active');
     const winning_combos = [
         [0, 1, 2],
         [3, 4, 5],
@@ -17,24 +19,20 @@ window.addEventListener('load', () => {
     ]
 
 
-    const player = (shape) => {
-        const takeTurn = () => {
-            if (shape == 'X') {
-                cell.textContent = 'X';
-            }
-        }
-        const active = () => {
-            if (playerX.classList.contains('active')){
-                playerX.classList.remove('active');
-                playerO.classList.add('active');
-            } else {
-                playerO.classList.remove('active');
-                playerX.classList.add('active');
-            }
-        }
-    }
-
-    const gameCells = document.querySelectorAll('.gameSquare');
+    // const player = (shape) => {
+    //     const takeTurn = () => {
+    //         if (shape == 'X') {
+    //             cell.textContent = 'X';
+    //             playerXdiv.classList.remove('active');
+    //             playerOdiv.classList.add('active');
+    //         } else {
+    //             cell.textContent = 'O';
+    //             playerOdiv.classList.remove('active');
+    //             playerXdiv.classList.add('active');
+    //         }
+    //     }
+    //     return {takeTurn};
+    // }
 
     resetButton.addEventListener('click', () => {
         gameCells.forEach(cell => {
@@ -42,31 +40,28 @@ window.addEventListener('load', () => {
             if (cell.classList.contains('played')) cell.classList.remove('played');
         })
         activePlayer = 'X';
-        playerO.classList.remove('active');
-        playerX.classList.add('active');
+        playerOdiv.classList.remove('active');
+        playerXdiv.classList.add('active');
     })
 
     gameCells.forEach(cell => {
         cell.addEventListener('click', () => {
             if (cell.classList.contains('played')) {
                 
-            } else if (player == 'X') {
+            } else if (activePlayer == 'X') {
                 cell.textContent = 'X';
                 cell.classList.add('played');
-                playerX.classList.remove('active');
-                playerO.classList.add('active');
+                playerXdiv.classList.remove('active');
+                playerOdiv.classList.add('active');
                 activePlayer = 'O';
             } else {
                 cell.textContent = 'O';
                 cell.classList.add('played');
-                playerO.classList.remove('active');
-                playerX.classList.add('active');
+                playerOdiv.classList.remove('active');
+                playerXdiv.classList.add('active');
                 activePlayer = 'X';
             }
         })
     })
-
-
-
 
 })
