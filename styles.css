@@ -47,7 +47,7 @@ main {
 
 .playerSide {
     font-size: 2.5rem;
-    border: 4p solid var(--darkOrange);
+    border: 4px solid var(--darkOrange);
     padding: 0.5vw;
     border-radius: 2rem;
 }
