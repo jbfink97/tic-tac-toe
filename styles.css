@@ -23,17 +23,24 @@ header {
     font-size: 6vh;
 }
 
-main {
+.container,
+div#result {
     background-color: var(--darkOrange);
+}
+
+div#result {
+    text-align: center;
+    flex-grow: 1;
+    font-size: 2rem;
+    color: var(--darkBlue);
 }
 
 .container {
     display: flex;
-    flex-grow: 1;
     gap: 2rem;
     justify-content: space-around;
     align-content: center;
-    padding: 10vh 3vw;
+    padding: 10vh 3vw 3vh 3vw;
 }
 
 .playerContainer {

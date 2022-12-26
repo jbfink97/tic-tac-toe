@@ -5,8 +5,10 @@ window.addEventListener('load', () => {
     const playerXdiv = document.querySelector('.X');
     const playerOdiv = document.querySelector('.O');
     const resetButton = document.getElementById('reset');
+    const resultsDiv = document.getElementById('result');
     let activePlayer = 'X';
-    let winner;
+    let winner = '';
+    let count = 0;
     playerXdiv.classList.add('active');
     const winning_combos = [
         [0, 1, 2],
@@ -21,23 +23,39 @@ window.addEventListener('load', () => {
 
 
     const player = (shape) => {
-        let totalBoxes =[];
-        const name = () => shape;
+        let totalBoxes = [];
         const takeTurn = (individualCell) => {
             if (shape == 'X') {
                 individualCell.textContent = 'X';
                 playerXdiv.classList.remove('active');
                 playerOdiv.classList.add('active');
                 activePlayer = 'O';
+                count++;
             } else {
                 individualCell.textContent = 'O';
                 playerOdiv.classList.remove('active');
                 playerXdiv.classList.add('active');
                 activePlayer = 'X';
+                count++;
             }
-            totalBoxes.push(individualCell.dataset.index);
+            let index = parseInt(individualCell.dataset.index);
+            totalBoxes.push(index);
+
+            for (let i = 0; i < winning_combos.length; i++) {
+                // console.log(winning_combos[i]);
+            if (winning_combos[i].every(r => totalBoxes.includes(r))){
+                winner = shape;
+                resultsDiv.textContent = `Player ${shape} wins!`;
+              }
+            }
+            if (count == 9) {
+                resultsDiv.textContent = "It's a tie!";
+            }
         }
-        return { takeTurn, name };
+        const resetTotalBoxes = () => {
+            totalBoxes = [];
+        }
+        return { takeTurn, resetTotalBoxes };
     }
 
     const playerX = player('X');
@@ -46,17 +64,23 @@ window.addEventListener('load', () => {
     resetButton.addEventListener('click', () => {
         gameCells.forEach(cell => {
             cell.textContent = '';
-            if (cell.classList.contains('played')) cell.classList.remove('played');
         })
         activePlayer = 'X';
+        winner = '';
+        playerX.resetTotalBoxes();
+        playerO.resetTotalBoxes();
+        count = 0;
         playerOdiv.classList.remove('active');
         playerXdiv.classList.add('active');
+        resultsDiv.textContent = '';
     })
 
     gameCells.forEach(cell => {
         cell.addEventListener('click', () => {
             let individualCell = cell;
-            if (individualCell.textContent.length > 0) {
+            if (individualCell.textContent.length > 0 || winner.length > 0) {
+                // skips and does nothing if the cell has a letter in it
+                // or if there is a winner
             } else if (activePlayer == 'X') {
                 playerX.takeTurn(individualCell);
             } else {
