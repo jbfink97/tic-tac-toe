@@ -48,7 +48,7 @@ window.addEventListener('load', () => {
                 resultsDiv.textContent = `Player ${shape} wins!`;
               }
             }
-            if (count == 9) {
+            if (count == 9 && resultsDiv.textContent.length < 1) {
                 resultsDiv.textContent = "It's a tie!";
             }
         }
